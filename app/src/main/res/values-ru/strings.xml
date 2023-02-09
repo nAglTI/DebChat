@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MemesSchedule</string>
+
+    <string name="title_dialogs">Диалоги</string>
+    <string name="title_settings">Настройки</string>
+    <string name="title_chat">Чат</string>
+
+    <string name="str_home_activity_auth_error_snack">Данные авторизации неверны!</string>
+    <string name="str_home_activity_error_snack">Ошибка авторизации! Проверьте подключение к интернету!</string>
+    <string name="str_home_activity_server_error_snack">Авторизация не удалась! Ошибка сервера!</string>
+    <string name="enter_your_login">Введите свой логин</string>
+    <string name="enter_your_password">Введите свой пароль</string>
+
+    <string-array name="str_days_of_week">
+        <item>ПН</item>
+        <item>ВТ</item>
+        <item>СР</item>
+        <item>ЧТ</item>
+        <item>ПТ</item>
+        <item>СБ</item>
+    </string-array>
+    <string name="str_class">Кабинет: %1$s</string>
+    <string name="str_pair_time">Время:</string>
+
+    <string name="str_settings_sign_out">Выйти</string>
+    <string name="str_authorization_sign_in">Войти</string>
+    <string name="str_authorization_sign_in_text">Войдите в свой аккаунт UniDubna</string>
+</resources>

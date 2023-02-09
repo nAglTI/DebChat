@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1061386028864",
+    "project_id": "debchat-6a4d1",
+    "storage_bucket": "debchat-6a4d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1061386028864:android:cddd5c013f053928df5ca5",
+        "android_client_info": {
+          "package_name": "com.nagl.debchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1061386028864-dprqpfdach30jescu115b3dndl545jf4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIOLuWnmyOOtni6m4fvty-O0auF-QYIac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1061386028864-dprqpfdach30jescu115b3dndl545jf4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

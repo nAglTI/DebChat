@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_dialogs">
+
+    <fragment
+        android:id="@+id/navigation_dialogs"
+        android:name="com.nagl.debchat.ui.dialogs.DialogsFragment"
+        android:label="@string/title_dialogs"
+        tools:layout="@layout/fragment_dialogs">
+        <action
+            android:id="@+id/action_navigation_dialogs_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_dashboard"-->
+<!--        android:name="com.nagl.memesschedule.ui.dashboard.DashboardFragment"-->
+<!--        android:label="@string/title_dashboard"-->
+<!--        tools:layout="@layout/fragment_dashboard" />-->
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.nagl.debchat.ui.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.nagl.debchat.ui.dialogs.chat.ChatFragment"
+        android:label="@string/title_chat" />
+</navigation>

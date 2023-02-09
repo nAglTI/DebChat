@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.Gravity"/>
+        <import type="android.view.View"/>
+
+        <variable
+            name="message"
+            type="com.nagl.debchat.data.model.Message" />
+
+        <variable
+            name="userName"
+            type="String" />
+
+        <variable
+            name="isOwner"
+            type="Boolean" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/dialogLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5sp"
+        android:gravity="@{isOwner ? Gravity.END : Gravity.START}"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/schedule_shape"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/senderName"
+                android:visibility="@{isOwner ? View.GONE : View.VISIBLE}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5sp"
+                android:layout_marginTop="5sp"
+                android:layout_marginEnd="7sp"
+                android:text="@{userName}"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                tools:text="USER_NAME" />
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5sp"
+                android:layout_marginEnd="5sp"
+                android:text="@{message.text}"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:maxWidth="300sp"
+                tools:text="MESSAGE_TEXT" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="7sp"
+                android:layout_marginBottom="5sp"
+                android:gravity="center"
+                android:text="message.date"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                tools:text="HH:MM" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

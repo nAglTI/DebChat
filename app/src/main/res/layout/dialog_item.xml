@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="dialog"
+            type="com.nagl.debchat.data.model.Dialog" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/dialogLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5sp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/schedule_shape">
+
+            <TextView
+                android:id="@+id/pairName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@{dialog.title}"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:layout_margin="10sp"
+                android:textSize="16sp"
+                tools:text="Общий чат" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
