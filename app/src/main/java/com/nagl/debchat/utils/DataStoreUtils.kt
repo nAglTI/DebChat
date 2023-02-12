@@ -74,6 +74,5 @@ constructor(
 
     companion object {
         val USER_TOKEN = stringPreferencesKey("TOKEN")
-        //val IS_USER_AUTH = booleanPreferencesKey("IS_USER_AUTH")
     }
 }
