@@ -25,7 +25,7 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideWeatherDao(database: LocalDatabase): ChatMessageDao {
+    fun provideChatMessageDao(database: LocalDatabase): ChatMessageDao {
         return database.chatMessageDao
     }
 }

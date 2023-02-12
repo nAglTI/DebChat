@@ -1,10 +1,7 @@
 package com.nagl.debchat.data.source.net
 
-import com.nagl.debchat.data.model.net.NetDialog
-import com.nagl.debchat.data.model.net.NetMessage
 import com.nagl.debchat.data.model.UserToken
-import com.nagl.debchat.data.model.net.MessageHistoryRequest
-import com.nagl.debchat.data.model.net.UserRequest
+import com.nagl.debchat.data.model.net.*
 import com.nagl.debchat.data.source.net.retrofit.ApiService
 import com.nagl.debchat.di.scope.IoDispatcher
 import com.nagl.debchat.utils.Result
@@ -60,5 +57,23 @@ class NetworkInteractor @Inject constructor(
             } catch (e: Exception) {
                 Result.Error(e)
             }
+        }
+
+    override suspend fun sendMessage(
+        userToken: String,
+        sendMessageRequest: SendMessageRequest
+    ): Result<NetMessage> =
+        withContext(ioDispatcher) {
+            return@withContext try {
+                val result = apiService.sendMessage(userToken, sendMessageRequest)
+                if (result.isSuccessful) {
+                    Result.Success(result.body())
+                } else {
+                    Result.Success(null)
+                }
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+
         }
 }

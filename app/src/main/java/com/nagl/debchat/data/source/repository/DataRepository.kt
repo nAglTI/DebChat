@@ -2,11 +2,8 @@ package com.nagl.debchat.data.source.repository
 
 import com.nagl.debchat.data.model.Dialog
 import com.nagl.debchat.data.model.Message
-import com.nagl.debchat.data.model.net.NetDialog
-import com.nagl.debchat.data.model.net.NetMessage
 import com.nagl.debchat.data.model.UserToken
-import com.nagl.debchat.data.model.net.MessageHistoryRequest
-import com.nagl.debchat.data.model.net.UserRequest
+import com.nagl.debchat.data.model.net.*
 import com.nagl.debchat.data.source.db.IDatabaseInteractor
 import com.nagl.debchat.data.source.net.INetworkInteractor
 import com.nagl.debchat.di.scope.IoDispatcher
@@ -37,8 +34,12 @@ class DataRepository @Inject constructor(
         withContext(ioDispatcher) {
             val mapper = DialogMapperNet(UserMapperNet())
             when (val response = networkInteractor.getUserDialogs(userToken)) {
-                is Result.Success -> if (response.data != null) Result.Success(response.data.map { mapper.transformToDomain(it) }) else Result.Success(null)
-                is Result.Error ->Result.Error(response.exception)
+                is Result.Success -> if (response.data != null) Result.Success(response.data.map {
+                    mapper.transformToDomain(
+                        it
+                    )
+                }) else Result.Success(null)
+                is Result.Error -> Result.Error(response.exception)
                 else -> Result.Loading
             }
         }
@@ -61,10 +62,45 @@ class DataRepository @Inject constructor(
     ): Result<List<Message>> =
         withContext(ioDispatcher) {
             val mapper = MessageMapperNet()
-            when (val response = networkInteractor.getMessages(userToken, MessageHistoryRequest(chatId, 200, startMessageId))) {
-                is Result.Success -> if (response.data != null) Result.Success(response.data.map { mapper.transformToDomain(it) }) else Result.Success(null)
+            when (val response = networkInteractor.getMessages(
+                userToken,
+                MessageHistoryRequest(chatId, 200, startMessageId)
+            )) {
+                is Result.Success -> if (response.data != null) Result.Success(response.data.map {
+                    mapper.transformToDomain(
+                        it
+                    )
+                }) else Result.Success(null)
                 is Result.Error -> Result.Error(response.exception)
                 else -> Result.Loading
             }
         }
+
+    override suspend fun sendMessage(
+        userToken: String,
+        message: Message,
+        chatId: Long
+    ): Result<Message> =
+        withContext(ioDispatcher) {
+            val mapper = MessageMapperNet()
+            when (val response = networkInteractor.sendMessage(
+                userToken,
+                SendMessageRequest(chatId, message.encodeText())
+            )) {
+                is Result.Success -> if (response.data != null) Result.Success(
+                    mapper.transformToDomain(
+                        response.data
+                    )
+                ) else Result.Success(null)
+                is Result.Error -> response
+                else -> Result.Loading
+            }
+        }
+
+    override suspend fun insertMessagesToCache(chatId: Long, list: List<Message>) {
+        withContext(ioDispatcher) {
+            val mapper = MessageMapperDB()
+            databaseInteractor.insertMessagesByChatId(chatId, list.map { mapper.transformToDto(it, chatId) })
+        }
+    }
 }

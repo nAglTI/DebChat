@@ -17,6 +17,10 @@ interface IDataRepository {
     suspend fun getCacheMessages(chatId: Long): Result<List<Message>>
 
     suspend fun getNetMessages(userToken: String, chatId: Long, startMessageId: Long): Result<List<Message>>
+
+    suspend fun sendMessage(userToken: String, message: Message, chatId: Long): Result<Message>
+
+    suspend fun insertMessagesToCache(chatId: Long, list: List<Message>)
 //
 //    suspend fun getUserScheduleByGroup(group: String, refresh: Boolean): Result<Schedule>
 //

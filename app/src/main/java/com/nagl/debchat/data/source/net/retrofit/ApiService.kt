@@ -1,14 +1,10 @@
 package com.nagl.debchat.data.source.net.retrofit
 
 import com.nagl.debchat.data.model.UserToken
-import com.nagl.debchat.data.model.net.DialogResponse
-import com.nagl.debchat.data.model.net.MessageHistoryRequest
-import com.nagl.debchat.data.model.net.MessageHistoryResponse
-import com.nagl.debchat.data.model.net.UserRequest
+import com.nagl.debchat.data.model.net.*
 import com.nagl.debchat.utils.Urls
 import retrofit2.Response
 import retrofit2.http.*
-
 
 interface ApiService {
 
@@ -20,4 +16,7 @@ interface ApiService {
 
     @POST("{userToken}/" + Urls.MESSAGES_URL)
     suspend fun getMessageHistory(@Path("userToken") token: String, @Body messageHistoryRequest: MessageHistoryRequest): Response<MessageHistoryResponse>
+
+    @POST("{userToken}/" + Urls.SEND_MESSAGE_URL)
+    suspend fun sendMessage(@Path("userToken") token: String, @Body sendMessageRequest: SendMessageRequest): Response<NetMessage>
 }

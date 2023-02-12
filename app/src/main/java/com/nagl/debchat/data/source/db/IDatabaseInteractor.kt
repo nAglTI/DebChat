@@ -7,5 +7,5 @@ interface IDatabaseInteractor {
 
     suspend fun getCacheMessagesByChatId(chatId: Long): List<DBMessage>
 
-    suspend fun insertMessagesByChatId(chatId: Long, netMessages: List<DBMessage>)
+    suspend fun insertMessagesByChatId(chatId: Long, messages: List<DBMessage>)
 }

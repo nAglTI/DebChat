@@ -21,9 +21,6 @@ class ChatFragment : BaseFragment() {
     private val binding get() = _binding!!
     private val chatViewModel by viewModels<ChatViewModel> { viewModelFactoryProvider }
 
-    private var chatId: Long = 0
-    private var chatNetUsers = arrayListOf<User>()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,7 +36,7 @@ class ChatFragment : BaseFragment() {
         val dialog = requireArguments().parcelable<Dialog>(CHAT_ARGS)!!
         chatViewModel.setDialog(dialog)
         binding.dialog = dialog
-        chatViewModel.getCacheMessages(chatId)
+        chatViewModel.getCacheMessages(binding.dialog.chatId)
         setListeners()
     }
 
@@ -51,26 +48,24 @@ class ChatFragment : BaseFragment() {
         val mLayoutManager = LinearLayoutManager(requireContext())
         binding.messagesListRecyclerView.layoutManager = mLayoutManager
 
-        var loading = true
+        //var loading = true
         var pastVisibleItems: Int
         var visibleItemCount: Int
         var totalItemCount: Int
-        binding.messagesListRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.messagesListRecyclerView.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy < 0) { // scroll up todo
                     visibleItemCount = mLayoutManager.childCount
-                    totalItemCount = mLayoutManager.itemCount;
-                    pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
+                    totalItemCount = mLayoutManager.itemCount
+                    pastVisibleItems = mLayoutManager.findLastVisibleItemPosition()
+                    if ((visibleItemCount + pastVisibleItems) <= totalItemCount) {
+                        //loading = false;
+                        Log.v("...", "Last Item Wow !");
+                        // Do pagination.. i.e. fetch new data
 
-                    if (loading) {
-                        if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
-                            loading = false;
-                            Log.v("...", "Last Item Wow !");
-                            // Do pagination.. i.e. fetch new data
-
-                            loading = true;
-                        }
+                        //loading = true;
                     }
                 }
             }
@@ -85,7 +80,14 @@ class ChatFragment : BaseFragment() {
     private fun observeViewModel() {
         chatViewModel.messages.observe(viewLifecycleOwner) {
             // TODO: check cached mess list with it & check isEmpty()
+            //if ()
         }
+
+//        chatViewModel.userToken.observe(viewLifecycleOwner) {
+//            it?.let {
+//                binding.userToken = it
+//            }
+//        }
     }
 
     companion object {

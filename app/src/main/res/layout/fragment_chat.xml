@@ -9,6 +9,9 @@
             name="dialog"
             type="com.nagl.debchat.data.model.Dialog" />
 
+        <variable
+            name="userToken"
+            type="com.nagl.debchat.data.model.UserToken" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

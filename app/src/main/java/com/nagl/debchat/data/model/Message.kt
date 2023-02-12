@@ -6,18 +6,19 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Message(
-    val id: Long,
-    val senderUserId: Long, // TODO: возможно добавить имя юзера
-    val date: Long, // timestamp ms
-    var text: String, // aes str
+    var id: Long = 0,
+    var senderUserId: Long = 0, // TODO: возможно добавить имя юзера
+    var date: Long = 0, // timestamp ms
+    var text: String = "", // aes str
 ): Parcelable {
 
-    fun Message.decodeText(): String {
+    fun decodeText(): String {
         return "decoded text"
     }
 
-    fun Message.encodeText() {
+    fun encodeText(): String {
         text = "encoded text"
+        return text
     }
 }
 
