@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nagl.debchat.data.model.Dialog
+import com.nagl.debchat.data.model.Message
 import com.nagl.debchat.databinding.DialogItemBinding
 
 class DialogAdapter(private val delegate: OnItemClickListener) : ListAdapter<Dialog, DialogAdapter.DialogViewHolder>(DialogDiffCallBack()) {
@@ -60,5 +61,9 @@ class DialogAdapter(private val delegate: OnItemClickListener) : ListAdapter<Dia
 
     interface OnItemClickListener{
         fun onDialogClick(dialog: Dialog)
+    }
+
+    companion object {
+        const val f = "Message()"
     }
 }

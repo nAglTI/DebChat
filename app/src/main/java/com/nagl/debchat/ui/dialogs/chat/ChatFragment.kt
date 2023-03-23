@@ -36,7 +36,7 @@ class ChatFragment : BaseFragment() {
         val dialog = requireArguments().parcelable<Dialog>(CHAT_ARGS)!!
         chatViewModel.setDialog(dialog)
         binding.dialog = dialog
-        chatViewModel.getCacheMessages(binding.dialog.chatId)
+        chatViewModel.getCacheMessages((binding.dialog as Dialog).chatId)
         setListeners()
     }
 

@@ -30,6 +30,7 @@ class AuthorizationActivity : BaseActivity() {
         authViewModel.isUserAuth()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
