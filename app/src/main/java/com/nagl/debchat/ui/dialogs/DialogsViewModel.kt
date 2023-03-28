@@ -41,7 +41,7 @@ class DialogsViewModel @Inject constructor(
                     if (result.data != null) {
                         _dialogs.value = result.data
                     } else {
-                        _dialogs.value = arrayListOf() // TODO: empty list check
+                        _dialogs.value = arrayListOf()
                     }
                 }
                 is com.nagl.debchat.utils.Result.Error -> { // todo: error codes handler later

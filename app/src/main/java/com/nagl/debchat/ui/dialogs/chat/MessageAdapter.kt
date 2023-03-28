@@ -11,6 +11,8 @@ import com.nagl.debchat.databinding.MessageItemBinding
 
 class MessageAdapter(private val currUser: User) : ListAdapter<Message, MessageAdapter.MessageViewHolder>(MessageDiffCallBack()) {
 
+    private var onLoadMoreListener: OnLoadMoreListener? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = MessageItemBinding.inflate(layoutInflater, parent, false)
@@ -22,6 +24,12 @@ class MessageAdapter(private val currUser: User) : ListAdapter<Message, MessageA
         if (message != null) {
             holder.bind(message, currUser.name, message.senderUserId == currUser.userId)
         }
+
+        if (position == 50) {
+            onLoadMoreListener?.onLoadMore(0)
+        } else if (position == itemCount - 50) {
+            onLoadMoreListener?.onLoadMore(itemCount + 1)
+        }
     }
 
     class MessageViewHolder(private val binding: MessageItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -31,6 +39,14 @@ class MessageAdapter(private val currUser: User) : ListAdapter<Message, MessageA
             binding.isOwner = isOwner
             binding.executePendingBindings()
         }
+    }
+
+    interface OnLoadMoreListener {
+        fun onLoadMore(firstNewItemId: Int)
+    }
+
+    fun setOnLoadMoreListener(onLoadMoreListener: OnLoadMoreListener) {
+        this.onLoadMoreListener = onLoadMoreListener
     }
 
     /**

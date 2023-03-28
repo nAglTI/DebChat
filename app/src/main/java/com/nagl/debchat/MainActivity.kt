@@ -14,6 +14,8 @@ class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    // TODO: viewmodel to get userInfo and longpoll updates for pass this data in fragments 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

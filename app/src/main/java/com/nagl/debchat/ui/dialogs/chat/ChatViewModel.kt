@@ -48,8 +48,10 @@ class ChatViewModel @Inject constructor(
                 is com.nagl.debchat.utils.Result.Success -> {
                     if (result.data != null) {
                         _messages.value = result.data
+                        getNetMessages(chatId, result.data.last().id)
+                    } else {
+                        getNetMessages(chatId, 0)
                     }
-                    getNetMessages(chatId, 0)
                 }
                 else -> {}
             }
