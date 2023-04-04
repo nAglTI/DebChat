@@ -25,7 +25,7 @@ class MessageAdapter(private val currUser: User) : ListAdapter<Message, MessageA
             holder.bind(message, currUser.name, message.senderUserId == currUser.userId)
         }
 
-        if (position == 50) {
+        if (position == 50) { // TODO: проверить границу загрузки сообщений
             onLoadMoreListener?.onLoadMore(0)
         } else if (position == itemCount - 50) {
             onLoadMoreListener?.onLoadMore(itemCount + 1)

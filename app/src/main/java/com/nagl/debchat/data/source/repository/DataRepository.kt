@@ -64,7 +64,7 @@ class DataRepository @Inject constructor(
             val mapper = MessageMapperNet()
             when (val response = networkInteractor.getMessages(
                 userToken,
-                MessageHistoryRequest(chatId, 200, startMessageId)
+                MessageHistoryRequest(chatId, 200, startMessageId) // TODO: handle messagesCount if startId == 0 (set count to fun arg, not const)
             )) {
                 is Result.Success -> if (response.data != null) Result.Success(response.data.map {
                     mapper.transformToDomain(

@@ -1,9 +1,6 @@
 package com.nagl.debchat.ui.dialogs.chat
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.nagl.debchat.data.model.Dialog
 import com.nagl.debchat.data.model.Message
 import com.nagl.debchat.data.model.net.NetMessage
@@ -19,12 +16,12 @@ class ChatViewModel @Inject constructor(
 ) : ViewModel() {
 
     private lateinit var dialog: Dialog
-
     private lateinit var userToken: UserToken
     //var userToken: LiveData<UserToken?> = _userToken
 
-    private val _messages = MutableLiveData<List<Message>?>()
-    var messages: LiveData<List<Message>?> = _messages
+    private val _newMessages = MutableLiveData<List<Message>?>()
+    var newMessages: LiveData<List<Message>?> = _newMessages
+    val messagesList = mutableListOf<Message>()
 
     private val _isLoading = MutableLiveData(false)
     var isLoading: LiveData<Boolean> = _isLoading
@@ -47,8 +44,8 @@ class ChatViewModel @Inject constructor(
             when (val result = dataRepository.getCacheMessages(chatId)) {
                 is com.nagl.debchat.utils.Result.Success -> {
                     if (result.data != null) {
-                        _messages.value = result.data
-                        getNetMessages(chatId, result.data.last().id)
+                        _newMessages.value = result.data
+                        getNetMessages(chatId, result.data.last().id + 1)
                     } else {
                         getNetMessages(chatId, 0)
                     }
@@ -65,10 +62,10 @@ class ChatViewModel @Inject constructor(
                 dataRepository.getNetMessages(userToken.token, chatId, startMessageId)) {
                 is com.nagl.debchat.utils.Result.Success -> {
                     if (result.data != null) {
-                        _messages.value = result.data
+                        _newMessages.value = result.data
                         addCachedMessages(result.data)
                     } else {
-                        _messages.value = null
+                        _newMessages.value = null
                     }
                 }
                 is com.nagl.debchat.utils.Result.Error -> {
@@ -86,10 +83,10 @@ class ChatViewModel @Inject constructor(
                 dataRepository.sendMessage(userToken.token, Message(text = text), dialog.chatId)) {
                 is com.nagl.debchat.utils.Result.Success -> {
                     if (result.data != null) {
-                        _messages.value = listOf(result.data)
+                        _newMessages.value = listOf(result.data)
                         addCachedMessages(listOf(result.data))
                     } else {
-                        _messages.value = null
+                        _newMessages.value = null
                     }
                 }
                 is com.nagl.debchat.utils.Result.Error -> {

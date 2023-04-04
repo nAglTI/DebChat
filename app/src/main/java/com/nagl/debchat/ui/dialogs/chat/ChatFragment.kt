@@ -23,7 +23,6 @@ class ChatFragment : BaseFragment() {
     private val chatViewModel by viewModels<ChatViewModel> { viewModelFactoryProvider }
 
     private val messageAdapter by lazy { MessageAdapter(User(1, "")) } // todo getActivity().getUser()
-    private val messagesList: ArrayList<Message> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +40,7 @@ class ChatFragment : BaseFragment() {
         chatViewModel.setDialog(dialog)
         binding.dialog = dialog
         binding.messagesListRecyclerView.adapter = messageAdapter
+        messageAdapter.submitList(chatViewModel.messagesList)
         chatViewModel.getCacheMessages((binding.dialog as Dialog).chatId) // TODO: mb save chatid in viewmodel
         setListeners()
     }
@@ -59,38 +59,13 @@ class ChatFragment : BaseFragment() {
         }
 
         messageAdapter.setOnLoadMoreListener(object : MessageAdapter.OnLoadMoreListener {
-            override fun onLoadMore(firstNewItemId: Int) { // todo save itemId for observe call
+            override fun onLoadMore(firstNewItemId: Int) {
                 chatViewModel.getNetMessages(
                     (binding.dialog as Dialog).chatId,
-                    messageAdapter.currentList[if (firstNewItemId == 0) 0 else firstNewItemId - 1].id
+                    messageAdapter.currentList[if (firstNewItemId == 0) 0 else firstNewItemId - 1].id // TODO: изменить id верхней границы
                 )
             }
         })
-
-//        val mLayoutManager = LinearLayoutManager(requireContext())
-//        binding.messagesListRecyclerView.layoutManager = mLayoutManager
-        //var loading = true
-//        var pastVisibleItems: Int
-//        var visibleItemCount: Int
-//        var totalItemCount: Int
-//        binding.messagesListRecyclerView.addOnScrollListener(object :
-//            RecyclerView.OnScrollListener() {
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                super.onScrolled(recyclerView, dx, dy)
-//                if (dy < 0) { // scroll up todo
-//                    visibleItemCount = mLayoutManager.childCount
-//                    totalItemCount = mLayoutManager.itemCount
-//                    pastVisibleItems = mLayoutManager.findLastVisibleItemPosition()
-//                    if ((visibleItemCount + pastVisibleItems) <= totalItemCount) {
-//                        //loading = false;
-//                        Log.v("...", "Last Item Wow !")
-//                        // Do pagination.. i.e. fetch new data
-//
-//                        //loading = true;
-//                    }
-//                }
-//            }
-//        })
     }
 
     override fun onDestroyView() {
@@ -99,20 +74,31 @@ class ChatFragment : BaseFragment() {
     }
 
     private fun observeViewModel() {
-        chatViewModel.messages.observe(viewLifecycleOwner) {
-            // TODO: check onScrollRecycler update
+        chatViewModel.newMessages.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
-                messageAdapter.submitList(it)
+                if (chatViewModel.messagesList.isEmpty()) {
+                    chatViewModel.messagesList.addAll(it)
+                    messageAdapter.submitList(it)
+                } else {
+                    if (chatViewModel.messagesList[0].id > it[0].id) {
+                        val newList = mutableListOf<Message>()
+                        newList.addAll(it)
+                        newList.addAll(chatViewModel.messagesList)
+                        chatViewModel.messagesList.apply {
+                            clear()
+                            addAll(newList)
+                        }
+                        messageAdapter.submitList(newList)
+                    } else {
+                        chatViewModel.messagesList.addAll(it)
+                        messageAdapter.submitList(chatViewModel.messagesList)
+                    }
+                }
+                //messageAdapter.submitList(chatViewModel.messagesList)
             } else {
-
+                // TODO: toast or snack or nothing
             }
         }
-
-//        chatViewModel.userToken.observe(viewLifecycleOwner) {
-//            it?.let {
-//                binding.userToken = it
-//            }
-//        }
     }
 
     companion object {
